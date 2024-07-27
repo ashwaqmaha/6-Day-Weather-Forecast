@@ -54,6 +54,27 @@ function fetchWeather(city) {
   });
 }
 
+function displayForecast() {
+  let days = ["Tue", "Wed", "Thurs", "Fri", "Sat"];
+  let forecastData = "";
+  days.forEach(function (day) {
+    // daily weather for the forecast:
+    forecastData += `<div class="weather-forecast-daily">
+            <div class="weather-forecast-day">${day}</div>
+            <div class="weather-forecast-icon">🌥️</div>
+            <div class="weather-forecast-temperatures">
+              <div class="weather-forecast-highest-temperature">
+                <strong>19°</strong>
+              </div>
+              <div class="weather-forecast-lowest-temperature">11°</div>
+            </div>
+          </div>`; 
+  });
+  let forecastElement = document.querySelector("#forecast");
+  forecastElement.innerHTML = forecastData;
+}
+
+
 // Event handler for form submission
 function handleSearch(event) {
   event.preventDefault();
@@ -71,3 +92,4 @@ function init() {
 
 // Start the app
 init();
+displayForecast();

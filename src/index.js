@@ -23,6 +23,9 @@ function updateWeatherInfo(data) {
 
   const date = new Date(data.time * 1000);
   timeElement.innerHTML = formatDate(date);
+
+//   displayForecast(data.city);
+  fetchForecast(data.city); 
 }
 
 // Function to format the date
@@ -53,8 +56,14 @@ function fetchWeather(city) {
     updateWeatherInfo(response.data);
   });
 }
+function fetchForecast(city) {
+  const apiKey = "5aa9fb62d0a7bb52efo9b7105t3487b2";
+  const url = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}`;
 
-function displayForecast() {
+  axios.get(url).then(displayForecast);
+}
+function displayForecast(response) {
+  console.log(response);
   let days = ["Tue", "Wed", "Thurs", "Fri", "Sat"];
   let forecastData = "";
   days.forEach(function (day) {
@@ -68,12 +77,11 @@ function displayForecast() {
               </div>
               <div class="weather-forecast-lowest-temperature">11°</div>
             </div>
-          </div>`; 
+          </div>`;
   });
   let forecastElement = document.querySelector("#forecast");
   forecastElement.innerHTML = forecastData;
 }
-
 
 // Event handler for form submission
 function handleSearch(event) {
@@ -92,4 +100,4 @@ function init() {
 
 // Start the app
 init();
-displayForecast();
+

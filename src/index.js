@@ -24,8 +24,7 @@ function updateWeatherInfo(data) {
   const date = new Date(data.time * 1000);
   timeElement.innerHTML = formatDate(date);
 
-//   displayForecast(data.city);
-  fetchForecast(data.city); 
+  fetchForecast(data.city);
 }
 
 // Function to format the date
@@ -56,28 +55,44 @@ function fetchWeather(city) {
     updateWeatherInfo(response.data);
   });
 }
+
 function fetchForecast(city) {
   const apiKey = "5aa9fb62d0a7bb52efo9b7105t3487b2";
   const url = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}`;
 
   axios.get(url).then(displayForecast);
 }
+
+function formateDayForecast(timeStamp) {
+  let day = new Date(timeStamp * 1000);
+  console.log(day);
+  let dates = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri"];
+  return dates[day.getDay()];
+}
+
 function displayForecast(response) {
-  console.log(response);
-  let days = ["Tue", "Wed", "Thurs", "Fri", "Sat"];
+  let dailyForecasts = response.data.daily;
+
   let forecastData = "";
-  days.forEach(function (day) {
-    // daily weather for the forecast:
-    forecastData += `<div class="weather-forecast-daily">
-            <div class="weather-forecast-day">${day}</div>
-            <div class="weather-forecast-icon">🌥️</div>
+  dailyForecasts.forEach(function (day, index) {
+    if (index < 6 && index > 0) {
+      // daily weather for the forecast:
+      forecastData += `<div class="weather-forecast-daily">
+            <div class="weather-forecast-day">${formateDayForecast(
+              day.time
+            )}</div>
+            
+            <img src="${day.condition.icon_url}" class="weather-forecast-icon"/>
             <div class="weather-forecast-temperatures">
               <div class="weather-forecast-highest-temperature">
-                <strong>19°</strong>
+                <strong>${Math.round(day.temperature.maximum)}°</strong>
               </div>
-              <div class="weather-forecast-lowest-temperature">11°</div>
+              <div class="weather-forecast-lowest-temperature">${Math.round(
+                day.temperature.minimum
+              )}°</div>
             </div>
           </div>`;
+    }
   });
   let forecastElement = document.querySelector("#forecast");
   forecastElement.innerHTML = forecastData;
@@ -100,4 +115,3 @@ function init() {
 
 // Start the app
 init();
-

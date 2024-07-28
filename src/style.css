@@ -112,7 +112,7 @@ main {
 
 .weather-forecast-temperatures {
   display: flex;
-  text-align: center;
+  justify-content: center;
   color: #f65282;
 }
 

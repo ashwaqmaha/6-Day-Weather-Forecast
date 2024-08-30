@@ -65,7 +65,7 @@ function fetchForecast(city) {
 
 function formateDayForecast(timeStamp) {
   let day = new Date(timeStamp * 1000);
-  let dates = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri"];
+  let dates = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
   return dates[day.getDay()];
 }
 
